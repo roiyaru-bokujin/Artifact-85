@@ -2,6 +2,10 @@
 
 Artifact 85 (AF-85) is a minimalist, 16-step sequencer and synthesizer built directly on a bare ATtiny85 microcontroller. It uses optimized hardware-level code to generate four tracks of audio, controlled entirely through a screenless, tactile two-button interface.
 
+## 0. Diagram
+
+<img width="969" height="687" alt="artifact85_diagram" src="https://github.com/user-attachments/assets/2f51ed7d-4b09-48e7-940b-24dbd197724d" />
+
 ## 1. Hardware
 The physical build uses an isolated power network to protect the audio signal from LED switching noise.
 * **Microcontroller:** Bare ATtiny85 running off its internal oscillator.
