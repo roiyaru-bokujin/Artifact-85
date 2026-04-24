@@ -20,9 +20,9 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
-#define LED_TIMING PB1 
+#define LED_TIMING PB2 
 #define LED_STATUS PB3 
-#define BTN_PERF PB2 
+#define BTN_PERF PB1 
 #define BTN_NAV PB0 
 
 volatile uint16_t patterns[4] = {0, 0, 0, 0};
