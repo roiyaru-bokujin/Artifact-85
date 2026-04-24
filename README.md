@@ -4,7 +4,16 @@ Artifact 85 (AF-85) is a minimalist, 16-step sequencer and synthesizer built dir
 
 ## 0. Diagram
 
-<img width="969" height="687" alt="artifact85_diagram" src="https://github.com/user-attachments/assets/2f51ed7d-4b09-48e7-940b-24dbd197724d" />
+<p align="center">
+  <img width="970" height="617" alt="artifact85_diagram" src="https://github.com/user-attachments/assets/e8589891-93e9-42a5-8373-10b03e9f43f8" />
+</p>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/f491e925-30c8-4c8e-a6b6-4bd3ec57f903" width="31%" />
+  &nbsp;
+  <img src="https://github.com/user-attachments/assets/3c24ea12-a3bb-4367-aec8-16f98d063f85" width="31%" />
+  &nbsp;
+  <img src="https://github.com/user-attachments/assets/890ba027-9b3e-4b97-852d-f7b755b8e8f9" width="31%" />
+</p>
 
 ## 1. Hardware
 
