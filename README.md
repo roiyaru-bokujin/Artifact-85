@@ -19,43 +19,60 @@ Artifact 85 (AF-85) is a minimalist, 16-step sequencer and synthesizer built dir
 
 The physical build uses an isolated power network to protect the audio signal from LED switching noise.
 
-* **Microcontroller:** Bare ATtiny85 running off its internal oscillator.
-* **Power Decoupling:** A 47Ω resistor, 100µF capacitor, and 0.1µF capacitor on the VCC line prevent voltage sags when LEDs flash.
-* **Audio Output:** Output Pin 3 uses a 1kΩ series resistor to limit current, balance the audio level, and protect the hardware.
-* **Visuals & Input:** Two tactile switches and two LEDs (Timing and Status), using 2.2kΩ resistors to minimize power rail draw.
+* **Microcontroller:** Bare ATtiny85 running off its internal oscillator (16.5MHz PLL).
+* **Power Decoupling:** A 100µF and 0.1µF capacitor on the VCC line prevent voltage sags when LEDs flash.
+* **Audio Output:** Output Pin 3 uses a 1kΩ series resistor to limit current and a 1µf capacitor for DC offset to balance the audio level, and protect the hardware.
+* **Visuals & Input:** Two tactile switches and two LEDs (Timing and Status), using 1kΩ resistors to minimize power rail draw.
 
 ## 2. Software Engine
 
 The firmware bypasses standard Arduino libraries and writes directly to the ATtiny85's hardware registers for zero-latency, jitter-free performance.
 
 * **Clock & Audio:** Timer 0 drives an 8kHz background interrupt for the sequencer engine, while Timer 1 generates the high-speed 64kHz PWM audio carrier wave.
-* **Memory Optimization:** 16-step patterns are stored as single 16-bit integers, keeping the memory footprint extremely low and fast to calculate.
-* **Smart Envelopes:** Envelope decay rates are dynamically tied to the active waveform mode and kit to change how a track behaves.
-* **Input Debouncing:** Hardware switch bouncing is handled by a custom 30ms stable-state verification, ensuring clean note inputs without blocking the audio.
+* **Wavetable Synthesis:** High-fidelity Sine and Triangle wavetables are stored in PROGMEM, allowing for melodic percussion and sub-bass drones.
+* **Smart Envelopes:** Envelope decay rates and Red LED "dwell" times are dynamically balanced. The Red LED is software-boosted to an 80ms duty cycle to match the perceived brightness of the Green LED.
+* **Input Debouncing:** Custom 10ms stable-state verification on all inputs ensures clean performance triggers without blocking the audio interrupt.
 
 ## 3. UX/UI
 
 The dual-button interface strictly separates real-time performance actions (Button A) from system navigation (Button B). 
 
-* **Bootloader (Kit Selection):** Upon powering on, the device pauses in a selection state, indicated by the Timing and Status LEDs flashing alternately. Press Button A to load **Kit A**, or Button B to load **Kit B**. Both LEDs will flash solid to confirm the choice. *(Note: You must power-cycle the device to change kits).*
-* **The Playhead:** The Timing LED pulses briefly on step 1 and step 9 to ground the performer within the invisible 16-step grid.
+* **Bootloader (Kit Selection):** Upon power-on, the LEDs alternate. Tap either button to select your kit. The LEDs flash 1-to-1 with your physical presses for easy counting. Stop clicking to lock in your choice; both LEDs will double-flash to confirm.
+  * **1 Click:** Kit 1 (Raw Analog)
+  * **2 Clicks:** Kit 2 (Studio Groovebox)
+  * **3 Clicks:** Kit 3 (Ambient Engine)
+  * **4 Clicks:** Kit 4 (8-Bit Arcade)
+* **Contextual Soft-Reboot:** To change kits without a power-cycle, hold Buttons A + B for 1.5s on an **empty kit**. The device will jump back to the boot menu.
+* **The Playhead:** The Timing LED pulses briefly on step 1 and step 9. The Status LED is timing-matched (80ms dwell) to ensure high-visibility beat tracking.
 * **Button A (Performance):** A quick tap stamps a note at the playhead's current position; holding the button for 600ms toggles the active track's "Mod" mode.
-* **Button B (Navigation):** A single tap cycles tracks (Status LED flashes 1 to 4 times), a double-tap enters Draft Mode, a triple-tap cycles three tempo presets (120, 140, 90 BPM), and holding for 800ms wipes the active track.
-* **Draft Mode:** Double-tap Button B to enter a silent buffer where notes can be sequenced without being heard. The Status LED will mirror the playhead to verify the mode is active. Single-tap Button B to queue the draft (the LED will flash rapidly), seamlessly applying it to the live track on step 1. Tap Buttons A + B simultaneously to instantly cancel Draft Mode and clear the buffer.
-* **Global Reset:** Holding both Button A and Button B simultaneously for 1.5 seconds clears all four tracks.
+* **Button B (Navigation):** A single tap cycles tracks (Status LED flashes 1 to 4 times), a double-tap enters Draft Mode, a triple-tap cycles tempo presets (120, 140, 90 BPM), and holding for 800ms wipes the active track.
+* **Draft Mode:** Double-tap Button B to enter a silent buffer. Sequence notes using A. Single-tap B to queue the draft; it will drop into the live mix perfectly on the next step 1. Tap A + B to cancel.
+* **Global Wipe:** Holding A + B for 1.5s on a **populated kit** clears all four tracks.
 
 ## 4. Track Palette
 
-The 4-track engine uses algorithmic linear-feedback shift registers (LFSR) and pitch-sweeping logic to simulate a rhythm section. It features two fully independent sound kits loaded at boot.
+The 4-track engine uses a mix of Wavetable, LFSR Noise, and PWM synthesis.
 
-### Kit A (The Original Hybrid)
-* **Track 1:** Default is a deep, pitch-sweeping 808-style Kick drum; Mod mode converts it to a steady 60Hz Acid Bass synth.
-* **Track 2:** A fixed mid-range percussive thud, acting as a snare or mid-tom.
-* **Track 3:** A fixed high-range percussive "tink," functioning as a high tom or clave.
-* **Track 4:** Default is a sharp 16-bit white noise Closed Hi-Hat; Mod mode transforms it into a ringing 7-bit metallic Open Cymbal.
+### Kit 1: "The Raw Analog"
+* **T1:** Square Kick `-> Mod:` Acid Square Bass
+* **T2:** Snappy Mid Tom `-> Mod:` Percussive Woodblock
+* **T3:** High Tonal Tom `-> Mod:` High Bongo
+* **T4:** White Noise Closed Hat `-> Mod:` Open Hi-Hat
 
-### Kit B (Arcade Electro)
-* **Track 1:** Default is a pure, 12.5% duty-cycle Pulse Bass; Mod mode is a punchy, pitch-swept Sub Kick.
-* **Track 2:** Default is a tuned, semi-tight Snare mixing tone and noise; Mod mode is an aggressive, pitch-dropping Arcade Laser.
-* **Track 3:** Default is a short, dissonant FM Chime; Mod mode is a ringing, harmonic FM Bell.
-* **Track 4:** Default is a hardware Octave Arpeggiator that rapidly flips pitches; Mod mode is a "Wire Brush," created by crushing metallic noise down to a 4kHz sample rate with a smooth envelope.
+### Kit 2: "The Studio Groovebox"
+* **T1:** Deep Sine Sub-Bass `-> Mod:` Punchy 909 Sine Kick
+* **T2:** Low Triangle Tom `-> Mod:` High Triangle Tom
+* **T3:** Melodic Sine Pluck `-> Mod:` Sine Perfect 5th
+* **T4:** Metallic LFSR Hat `-> Mod:` Tone/Noise Snare Snap
+
+### Kit 3: "The Ambient Engine"
+* **T1:** Triangle Heartbeat Thump `-> Mod:` Deep Resonant Sine Bass
+* **T2:** Triangle Marimba Pluck `-> Mod:` High Octave Marimba
+* **T3:** Sine Minor 3rd Pluck `-> Mod:` Triangle Major 3rd Pluck
+* **T4:** Soft Sand Shaker (Low Vol) `-> Mod:` Glass Chime Ping
+
+### Kit 4: "The 8-Bit Arcade"
+* **T1:** 8-Bit Laser Kick `-> Mod:` Pitch-Up Power Up
+* **T2:** Arcade Low Blip `-> Mod:` Arcade High Blip
+* **T3:** 50% Duty Square Lead `-> Mod:` 12.5% Buzzy Pulse Lead
+* **T4:** Decimated Crush Snare `-> Mod:` Digital Glitch Tick
