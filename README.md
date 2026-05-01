@@ -1,6 +1,6 @@
 # Artifact 85 (AT-85)
 
-Artifact 85 (AF-85) is a minimalist, 16-step sequencer and synthesizer built directly on a bare ATtiny85 microcontroller. It uses optimized hardware-level code to generate four tracks of audio, controlled entirely through a screenless, tactile two-button interface.
+Artifact 85 (AT-85) is a minimalist, 16-step sequencer and synthesizer built directly on a bare ATtiny85 microcontroller. It uses optimized hardware-level code to generate four tracks of audio, controlled entirely through a screenless, tactile two-button interface.
 
 ## 0. Diagram
 
