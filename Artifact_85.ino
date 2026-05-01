@@ -1,5 +1,5 @@
 /*
- * Artifact 85 (AF-85) v1.1
+ * Artifact 85 (AT-85) v1.1
  * Attiny85 based 16-step, 4-track sequencer and synthesizer
  *
  * Changelog v1.2
