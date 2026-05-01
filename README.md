@@ -20,6 +20,7 @@ Artifact 85 (AT-85) is a minimalist, 16-step sequencer and synthesizer built dir
 The physical build uses an isolated power network to protect the audio signal from LED switching noise.
 
 * **Microcontroller:** Bare ATtiny85 running off its internal oscillator (16.5MHz PLL).
+* **Power source:** A single CR2450 3v coin cell powers the entire circuit
 * **Power Decoupling:** A 100µF and 0.1µF capacitor on the VCC line prevent voltage sags when LEDs flash.
 * **Audio Output:** Output Pin 3 uses a 1kΩ series resistor to limit current and a 1µf capacitor for DC offset to balance the audio level, and protect the hardware.
 * **Visuals & Input:** Two tactile switches and two LEDs (Timing and Status), using 1kΩ resistors to minimize power rail draw.
