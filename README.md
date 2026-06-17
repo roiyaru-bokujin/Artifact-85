@@ -1,6 +1,6 @@
 # Artifact 85 (AT-85)
 
-Artifact 85 (AT-85) is a minimalist, 16-step sequencer and synthesizer driven entirely by a ATtiny85 microcontroller. It uses optimized hardware-level code to generate four tracks of audio controlled a simple two-button tactile interface.
+Artifact 85 (AT-85) is a tiny 16-step sequencer and synthesizer driven entirely by a ATtiny85 microcontroller and powered by a single CR2450 coin cell battery. It uses optimized hardware-level code to generate four tracks of audio controlled by a simple two-button tactile interface.
 
 ## 0. Diagram
 
