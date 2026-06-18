@@ -2,20 +2,20 @@
 
 Artifact 85 (AT-85) is a tiny 16-step sequencer and synthesizer driven entirely by a ATtiny85 microcontroller and powered by a single CR2450 coin cell battery. It uses optimized hardware-level code to generate four tracks of audio controlled by a simple two-button tactile interface.
 
-## 0. Diagram
+<img width="2100" height="1400" alt="DSCF4322_resized" src="https://github.com/user-attachments/assets/eafb282e-8127-4270-9014-f58ab54c5d0c" />
+
+
+## Diagram
 
 <p align="center">
-  <img width="970" height="617" alt="artifact85_diagram" src="https://github.com/user-attachments/assets/e8589891-93e9-42a5-8373-10b03e9f43f8" />
-</p>
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/f491e925-30c8-4c8e-a6b6-4bd3ec57f903" width="31%" />
+  <img src="https://github.com/user-attachments/assets/f491e925-30c8-4c8e-a6b6-4bd3ec57f903" width="32%" />
   &nbsp;
-  <img src="https://github.com/user-attachments/assets/3c24ea12-a3bb-4367-aec8-16f98d063f85" width="31%" />
+  <img src="https://github.com/user-attachments/assets/3c24ea12-a3bb-4367-aec8-16f98d063f85" width="32%" />
   &nbsp;
-  <img src="https://github.com/user-attachments/assets/890ba027-9b3e-4b97-852d-f7b755b8e8f9" width="31%" />
+  <img src="https://github.com/user-attachments/assets/890ba027-9b3e-4b97-852d-f7b755b8e8f9" width="32%" />
 </p>
 
-## 1. Hardware
+## Hardware
 
 The physical build uses an isolated power network to protect the audio signal from LED switching noise.
 
@@ -25,7 +25,7 @@ The physical build uses an isolated power network to protect the audio signal fr
 * **Audio Output:** Output Pin 3 uses a 1kΩ series resistor to limit current and a 1µf capacitor for DC offset to balance the audio level, and protect the hardware.
 * **Visuals & Input:** Two tactile switches and two LEDs (Timing and Status), using 1kΩ resistors to minimize power rail draw.
 
-## 2. Software Engine
+## Software Engine
 
 The firmware bypasses standard Arduino libraries and writes directly to the ATtiny85's hardware registers for zero-latency, jitter-free performance.
 
@@ -34,7 +34,7 @@ The firmware bypasses standard Arduino libraries and writes directly to the ATti
 * **Smart Envelopes:** Envelope decay rates and Red LED "dwell" times are dynamically balanced. The Red LED is software-boosted to an 80ms duty cycle to match the perceived brightness of the Green LED.
 * **Input Debouncing:** Custom 10ms stable-state verification on all inputs ensures clean performance triggers without blocking the audio interrupt.
 
-## 3. UX/UI
+## UX/UI
 
 The dual-button interface strictly separates real-time performance actions (Button A) from system navigation (Button B). 
 
@@ -50,7 +50,7 @@ The dual-button interface strictly separates real-time performance actions (Butt
 * **Draft Mode:** Double-tap Button B to enter a silent buffer. Sequence notes using A. Single-tap B to queue the draft; it will drop into the live mix perfectly on the next step 1. Tap A + B to cancel.
 * **Global Wipe:** Holding A + B for 1.5s on a **populated kit** clears all four tracks.
 
-## 4. Track Palette
+## Track Palette
 
 The 4-track engine uses a mix of Wavetable, LFSR Noise, and PWM synthesis.
 
