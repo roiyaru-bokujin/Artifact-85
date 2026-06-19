@@ -1,6 +1,6 @@
 # Artifact 85 (AT-85)
 
-Artifact 85 (AT-85) is a tiny 16-step sequencer and synthesizer driven entirely by a ATtiny85 microcontroller and powered by a single CR2450 coin cell battery. It uses optimized hardware-level code to generate four tracks of audio controlled by a simple two-button tactile interface.
+Artifact 85 (AT-85) is a tiny 4-track, 16-step sequencer and synthesizer that runs entirely on an ATtiny85 microcontroller, powered by a single CR2450 coin cell battery. It uses hardware timers and PWM-based audio synthesis to generate sounds, controlled through a simple two-button tactile interface.
 
 <img width="2100" height="1400" alt="DSCF4322_resized" src="https://github.com/user-attachments/assets/eafb282e-8127-4270-9014-f58ab54c5d0c" />
 
